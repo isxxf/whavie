@@ -12,13 +12,9 @@ RUN mvn package -DskipTests
 # --- RUNTIME ---
 FROM eclipse-temurin:17-jre
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-
 WORKDIR /app
 
 COPY --from=build /build/target/*.jar app.jar
-
-USER appuser
 
 EXPOSE 8080
 
