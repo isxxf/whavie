@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Map;
+
 @Service
 public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
     private static final Logger log = LoggerFactory.getLogger(OAuth2UserServiceImpl.class);
@@ -73,7 +75,19 @@ public class OAuth2UserServiceImpl extends DefaultOAuth2UserService {
             log.error("Error crítico en autenticación OAuth2: {}", e.getMessage(), e);
             throw new OAuth2AuthenticationException("Error en la autenticación OAuth2");
         }
-        return oAuth2User;
+        Usuario usuario = usuarioRepository
+                .findByEmailOrUsername(emailNormalizado, emailNormalizado)
+                .orElseThrow();
+
+        return new org.springframework.security.oauth2.core.user.DefaultOAuth2User(
+                oAuth2User.getAuthorities(),
+                Map.of(
+                        "username", usuario.getUsername(),
+                        "email", usuario.getEmail(),
+                        "id", usuario.getId()
+                ),
+                "username"
+        );
     }
 
     /**

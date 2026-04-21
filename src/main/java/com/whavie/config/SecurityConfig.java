@@ -1,5 +1,7 @@
 package com.whavie.config;
 
+import com.whavie.model.AuthProvider;
+import com.whavie.model.Usuario;
 import com.whavie.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -112,15 +114,17 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(UsuarioRepository usuarioRepository) {
         return usernameOrEmail -> {
             String normalized = usernameOrEmail.trim().toLowerCase();
-            return usuarioRepository
+            Usuario usuario = usuarioRepository
                     .findByEmailOrUsername(normalized, normalized)
-                    .map(usuario -> User.withUsername(usuario.getUsername())
-                            .password(usuario.getPassword() != null ? usuario.getPassword() : "")
-                            .roles("USER")
-                            .build()
-                    )
                     .orElseThrow(() ->
                             new UsernameNotFoundException("Usuario no encontrado: " + usernameOrEmail));
+            if (usuario.getAuthProvider() == AuthProvider.GOOGLE) {
+                throw new UsernameNotFoundException("Este usuario debe iniciar sesión con Google");
+            }
+            return User.withUsername(usuario.getUsername())
+                    .password(usuario.getPassword())
+                    .roles("USER")
+                    .build();
         };
     }
 

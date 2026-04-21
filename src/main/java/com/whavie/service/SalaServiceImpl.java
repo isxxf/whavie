@@ -7,6 +7,7 @@ import com.whavie.model.FiltroSala;
 import com.whavie.model.Sala;
 import com.whavie.model.Usuario;
 import com.whavie.dto.Pelicula;
+import com.whavie.repository.ParticipanteSalaRepository;
 import com.whavie.repository.SalaRepository;
 import com.whavie.repository.UsuarioRepository;
 import com.whavie.repository.VotoPeliculaRepository;
@@ -29,15 +30,17 @@ public class SalaServiceImpl implements SalaService {
     private final TMDbService tmDbService;
 
     private final Random random = new Random();
+    private final ParticipanteSalaRepository participanteSalaRepository;
 
     public SalaServiceImpl(SalaRepository salaRepository, ParticipanteSalaService participanteSalaService,
                            UsuarioRepository usuarioRepository, VotoPeliculaRepository votoPeliculaRepository,
-                           TMDbService tmDbService) {
+                           TMDbService tmDbService, ParticipanteSalaRepository participanteSalaRepository) {
         this.salaRepository = salaRepository;
         this.participanteSalaService = participanteSalaService;
         this.usuarioRepository = usuarioRepository;
         this.votoPeliculaRepository = votoPeliculaRepository;
         this.tmDbService = tmDbService;
+        this.participanteSalaRepository = participanteSalaRepository;
     }
 
     // Genera un string de 7 caracteres alfanuméricos.
@@ -296,10 +299,11 @@ public class SalaServiceImpl implements SalaService {
     }
 
     private void validarIngresoSala(Sala sala) {
+        long actual = participanteSalaRepository.countBySalaId(sala.getId());
         if (sala.getEstado() != EstadoSala.ESPERANDO) {
             throw new IllegalStateException("La sala no permite nuevos participantes");
         }
-        if (sala.getParticipantes().size() >= sala.getMaxParticipantes()) {
+        if (actual >= sala.getMaxParticipantes()) {
             throw new IllegalStateException("La sala ha alcanzado el número máximo de participantes");
         }
     }
