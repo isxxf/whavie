@@ -1,0 +1,315 @@
+/* ===========================
+   AUTENTICACIÓN - LOGIN Y REGISTRO
+   =========================== */
+
+/* ===========================
+   HEADER DE AUTENTICACIÓN
+   =========================== */
+/* Encabezado con tabs de login/register */
+.auth-header {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+    margin-bottom: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Tabs individuales (Login/Register) */
+.auth-header .tab {
+    text-decoration: none;
+    color: #A1A1AAFF;
+    font-size: 16px;
+    transition: color 0.3s;
+    position: relative;
+    padding-bottom: 6px;
+}
+
+/* Tab activo con subrayado */
+.auth-header .tab.active {
+    color: white;
+}
+
+/* Línea subrayada del tab activo */
+.auth-header .tab.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #5b21d1 100%);
+    border-radius: 2px;
+}
+
+/* ===========================
+   CONTENEDOR DE AUTENTICACIÓN
+   =========================== */
+/* Wrapper general del formulario */
+.auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 420px;
+}
+
+/* Contenedor principal del formulario */
+.auth-container {
+    background-color: #161b22;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 16px;
+    height: auto;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ===========================
+   FORMULARIO
+   =========================== */
+/* Formulario de autenticación */
+.auth-form {
+    width: 100%;
+}
+
+/* Texto auxiliar dentro del formulario */
+.auth-helper {
+    margin: 0 0 16px 0;
+    color: #a1a1aa;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* Pie de página del formulario */
+.auth-footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #a1a1aa;
+}
+
+/* Link en pie de página */
+.auth-footer a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* ===========================
+   OPCIONES DEL FORMULARIO
+   =========================== */
+/* Contenedor de opciones (recordar contraseña y checkbox) */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+/* Link para olvidar contraseña */
+.forgot-link {
+    color: #A1A1AAFF;
+    text-decoration: none;
+}
+
+.forgot-link:hover {
+    color: #FFFFFFFF;
+}
+
+/* ===========================
+   CHECKBOX PERSONALIZADO
+   =========================== */
+/* Contenedor del checkbox personalizado */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #FFFFFFFF;
+}
+
+/* Input checkbox oculto */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Cuadrado visible del checkbox */
+.checkmark {
+    height: 18px;
+    width: 18px;
+    background-color: #A1A1AAFF;
+    border-radius: 4px;
+    margin-right: 8px;
+    position: relative;
+}
+
+/* Hover del checkbox */
+.checkbox-container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+/* Checkbox cuando está marcado */
+.checkbox-container input:checked ~ .checkmark {
+    background-color: #8B5CF6FF;
+}
+
+/* Checkmark dentro del checkbox */
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 6px;
+    top: 2px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Mostrar checkmark cuando está marcado */
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+/* ===========================
+   BOTÓN GOOGLE
+   =========================== */
+/* Botón de inicio de sesión con Google */
+.btn-google {
+    width: 100%;
+    padding: 14px;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Hover del botón Google */
+.btn-google:hover {
+    background-color: #f1f1f1;
+}
+
+/* ===========================
+   AVISOS Y ALERTAS
+   =========================== */
+/* Contenedor general para avisos */
+.aviso-auth {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 16px auto;
+}
+
+/* Estilo para avisos de error */
+.aviso-error {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Estilo para avisos de éxito */
+.aviso-success {
+    background-color: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+}
+
+/* Icono dentro del aviso */
+.aviso-auth i {
+    font-size: 1.2rem;
+}
+
+/* ===========================
+   MODAL RECUPERAR CONTRASEÑA
+   =========================== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 1000;
+}
+
+.modal-overlay.is-open {
+    display: flex;
+}
+
+.modal-card {
+    background-color: #161b22;
+    width: 100%;
+    max-width: 420px;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #a1a1aa;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.modal-close:hover {
+    color: #ffffff;
+}
+
+.modal-title {
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.modal-text {
+    color: #a1a1aa;
+    font-size: 13px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+/* ===========================
+   RESPONSIVE AUTH
+   =========================== */
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 22px;
+    }
+
+    .auth-header {
+        gap: 12px;
+    }
+
+    .auth-header .tab {
+        font-size: 12px;
+        padding-bottom: 3px;
+    }
+}

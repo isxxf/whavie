@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie - Unirse a una Sala','unirse-sala')}"></head>
+
+<body class="auth-body">
+<div class="sala-join-container">
+    <div th:if="${param.error == 'sesion_expirada'}" class="alert alert-warning">
+        Tu sesión expiró. Por favor ingresá tu nombre nuevamente.
+    </div>
+    <div id="step-1">
+        <h2 class="join-hero-title">Ingresá el código</h2>
+        <div class="otp-wrapper">
+            <div class="otp-group">
+                <input type="text" maxlength="1" class="otp-input" autofocus>
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+            </div>
+            <div class="otp-separator">—</div>
+            <div class="otp-group">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+                <input type="text" maxlength="1" class="otp-input">
+            </div>
+        </div>
+        <div class="join-actions">
+            <button onclick="verificarCodigoOTP()" class="btn-primary">Continuar</button>
+            <a href="/" class="btn-back">
+                <i class="fa-solid fa-reply"></i> Volver al inicio
+            </a>
+        </div>
+    </div>
+    <div id="step-2" style="display: none;">
+        <h2 class="join-hero-title">Casi listo...</h2>
+        <div class="input-group">
+            <input type="text" id="guestName" placeholder="Ingresa tu nombre" required>
+        </div>
+        <div class="join-actions">
+            <button onclick="entrarComoInvitado()" class="btn-primary">Entrar a la sala</button>
+            <a href="/" class="btn-back">
+                <i class="fa-solid fa-reply"></i> Volver al inicio
+            </a>
+        </div>
+    </div>
+</div>
+<script src="/js/main.js"></script>
+<script src="/js/unirse-sala.js"></script>
+</body>
+</html>

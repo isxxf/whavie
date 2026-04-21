@@ -1,0 +1,121 @@
+/* ===========================
+   CREAR SALA
+   =========================== */
+
+/* ===========================
+   CONTENEDOR PRINCIPAL
+   =========================== */
+/* Contenedor general de la sección de crear sala */
+.sala-create-container {
+    background: rgba(22, 27, 34, 0.6);
+    width: 100%;
+    max-width: 460px;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===========================
+   TÍTULOS
+   =========================== */
+/* Título principal de crear sala */
+.sala-create-hero-title{
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    margin-bottom: 15px;
+}
+
+/* ===========================
+   FORMULARIO Y CAMPOS
+   =========================== */
+/* Caja de configuración */
+.setup-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Etiqueta de input personalizada */
+.sala-create-input-label {
+    font-size: 0.9rem;
+    color: #a1a1aa;
+    margin-bottom: -15px;
+}
+
+/* ===========================
+   ACCIONES
+   =========================== */
+/* Contenedor de acciones/botones */
+.sala-create-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    width: 100%;
+}
+
+/* ===========================
+   CONTADOR
+   =========================== */
+/* Contenedor del contador de participantes */
+.counter-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #1a1a1a;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 12px;
+    padding: 10px 20px;
+    width: 200px;
+}
+
+/* Botones más y menos del contador */
+.counter-btn {
+    background: none;
+    border: none;
+    color: #8b5cf6;
+    font-size: 22px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0 10px;
+    transition: all 0.2s ease;
+}
+
+/* Hover del botón contador */
+.counter-btn:hover {
+    transform: scale(1.2);
+}
+
+/* Click del botón contador */
+.counter-btn:active {
+    transform: scale(0.9);
+}
+
+/* Valor visible del contador */
+.counter-value {
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* ===========================
+   BOTONES
+   =========================== */
+/* Botón principal para crear */
+.btn-primary {
+    width: 100%;
+    max-width: 250px;
+    margin-top: -8px;
+    margin-bottom: -1px;
+}

@@ -1,0 +1,350 @@
+/* ===========================
+   PÁGINA DE INICIO
+   =========================== */
+
+/* ===========================
+   GLOW DE FONDO
+   =========================== */
+/* Contenedor del efecto glow de fondo */
+.bg-glow {
+    --glow-top: -200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Efecto visual radial de brillo con animación */
+.bg-glow::before {
+    top: var(--glow-top);
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    animation: pulse-glow 4s ease-in-out infinite;
+    transition: top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ===========================
+   SECCIÓN HERO
+   =========================== */
+/* Sección principal de bienvenida */
+.hero-section {
+    margin-top: 100px;
+    text-align: center;
+    padding: 0 20px;
+}
+
+/* ===========================
+   BARRA DE NAVEGACIÓN
+   =========================== */
+/* Contenedor de navegación (mismo de main.css) */
+.navbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Acciones de navegación */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Botones de navegación tipo pill */
+.nav-pill {
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    color: #a1a1aa;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    white-space: nowrap;
+}
+
+/* Hover de botones pill */
+.nav-pill:hover {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Botón pill resaltado/activo */
+.nav-pill.highlight {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Hover del botón pill resaltado */
+.nav-pill.highlight:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+}
+
+/* Borde adicional para pill resaltado */
+.nav-pill.highlight {
+    border-color: rgba(255,255,255,0.6);
+}
+
+/* Saludo personalizado */
+.nav-greeting {
+    user-select: none;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 1px;
+}
+
+/* Nombre del usuario con gradiente en saludo */
+.nav-greeting strong {
+    font-weight: 800;
+    background: linear-gradient(90deg, #8b5cf6, #a78bfa, #8b5cf6);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-move 3s linear infinite;
+}
+
+/* Botón de icono en navegación */
+.nav-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+/* Hover del botón de icono */
+.nav-icon-btn:hover {
+    opacity: 1;
+}
+
+@keyframes gradient-move {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ===========================
+   BODY
+   =========================== */
+/* Estilo de body principal */
+.main-body {
+    background-color: #0D1117FF;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ===========================
+   BOTONES DEL HERO
+   =========================== */
+/* Contenedor de botones principales */
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Botones dentro del hero */
+.hero-buttons button {
+    white-space: nowrap;
+}
+
+/* Botón con estilo outline */
+.btn-outline {
+    background: transparent;
+    color: #8B5CF6FF;
+    border: 2px solid #8B5CF6FF;
+    padding: 15px 35px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+
+/* Hover del botón outline */
+.btn-outline:hover {
+    background: rgba(139, 92, 246, 0.1);
+}
+
+/* Icono más dentro del botón */
+.plus-icon {
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 29px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* ===========================
+   SECCIÓN "CÓMO FUNCIONA"
+   =========================== */
+/* Contenedor general */
+.how-it-works {
+    margin-top: 120px;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    padding-bottom: 50px;
+}
+
+/* Títulos de secciones */
+.solo-container .section-title {
+    margin-bottom: 25px;
+}
+
+.how-it-works .section-title {
+    margin-bottom: 25px;
+}
+
+/* Título de sección general */
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 40px;
+}
+
+/* ===========================
+   GRID DE PASOS
+   =========================== */
+/* Grid responsivo con las tarjetas de pasos */
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 0 20px;
+}
+
+/* Tarjetas individuales de pasos */
+.step-card {
+    background-color: rgba(22, 27, 34, 0.6);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.3s;
+}
+
+/* Hover de tarjeta de paso */
+.step-card:hover {
+    background-color: rgba(22, 27, 34, 0.9);
+}
+
+/* Número del paso */
+.step-num {
+    display: block;
+    color: #8B5CF6FF;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+/* Texto descriptivo del paso */
+.step-card p {
+    color: #A1A1AAFF;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* ===========================
+   MODO SOLO/INDIVIDUAL
+   =========================== */
+/* Sección del modo solo */
+.solo-mode {
+    padding: 90px 20px;
+    text-align: center;
+}
+
+/* Contenedor de modo solo */
+.solo-container {
+    max-width: 750px;
+    margin: auto;
+}
+
+/* Texto descriptivo del modo solo */
+.solo-text {
+    margin-top: 10px;
+    opacity: 0.85;
+    font-size: 1.1rem;
+}
+
+/* Botones del modo solo */
+.solo-buttons {
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+/* Adaptación para dispositivos medios y pequeños */
+@media (max-width: 768px) {
+    /* Glow más pequeño */
+    .bg-glow::before {
+        width: 600px;
+        height: 600px;
+    }
+
+    /* Navbar con padding reducido */
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .navbar-inner {
+        gap: 16px;
+    }
+
+    /* Pills más pequeños */
+    .nav-pill {
+        padding: 6px 14px;
+        font-size: 0.78rem;
+    }
+
+    /* Saludo más pequeño */
+    .nav-greeting {
+        font-size: 1.4rem;
+    }
+}
+
+/* Adaptación para dispositivos muy pequeños */
+@media (max-width: 480px) {
+    /* Gap reducido entre botones */
+    .hero-buttons {
+        gap: 10px;
+    }
+
+    /* Botones más pequeños */
+    .btn-gradient, .btn-outline {
+        padding: 12px 20px;
+        font-size: 0.83rem;
+    }
+}

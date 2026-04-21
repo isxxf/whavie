@@ -1,0 +1,147 @@
+/* ===========================
+   UNIRSE A SALA
+   =========================== */
+
+/* ===========================
+   CONTENEDOR PRINCIPAL
+   =========================== */
+/* Contenedor general para unirse a una sala */
+.sala-join-container {
+    background: rgba(22, 27, 34, 0.6);
+    width: 100%;
+    max-width: 460px;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ===========================
+   TÍTULOS
+   =========================== */
+/* Título principal de unirse */
+.join-hero-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 35px;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+/* Título alternativo en paso 2 */
+#step-2 .join-hero-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+/* ===========================
+   CÓDIGO OTP
+   =========================== */
+/* Contenedor general de inputs OTP */
+.otp-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    margin-bottom: 25px;
+}
+
+/* Grupo de inputs OTP */
+.otp-group {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* Input individual de OTP */
+.otp-input {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background-color: #1a1a1a;
+    border: 2px solid #8b5cf6;
+    color: #8b5cf6;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+/* Focus del input OTP - Efecto glow */
+.otp-input:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.5), inset 0 0 10px rgba(139, 92, 246, 0.1);
+    background-color: #252525;
+    transform: scale(1.05);
+}
+
+/* Placeholder del OTP */
+.otp-input::placeholder {
+    color: rgba(139, 92, 246, 0.3);
+}
+
+/* Separador visual entre grupos OTP */
+.otp-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;
+    font-size: 1.4rem;
+    color: #8b5cf6;
+    opacity: 0.7;
+}
+
+/* ===========================
+   BOTONES
+   =========================== */
+/* Contenedor de acciones */
+.join-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Acciones en paso 2 */
+#step-2 .join-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    align-items: center;
+    margin-top: -15px;
+}
+
+/* Botón principal para unirse */
+.btn-primary {
+    width: 100%;
+    max-width: 250px;
+    margin-top: 20px;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 480px) {
+    /* OTP inputs más pequeños */
+    .otp-input {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+    }
+
+    /* Título más pequeño en móvil */
+    .join-hero-title {
+        font-size: 1.4rem;
+    }
+}

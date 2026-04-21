@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie - Crear Sala','crear-sala')}"></head>
+<body class="auth-body">
+<div class="sala-create-container">
+    <h2 class="sala-create-hero-title">Crear Sala</h2>
+    <div class="setup-box">
+        <label class="sala-create-input-label">Número de participantes</label>
+        <div class="counter-container">
+            <button type="button" class="counter-btn" onclick="changeValue(-1)">−</button>
+            <span id="participant-count" class="counter-value">2</span>
+            <button type="button" class="counter-btn" onclick="changeValue(1)">+</button>
+        </div>
+    </div>
+    <div class="sala-create-actions">
+        <button type="button" onclick="confirmarCreacion()" class="btn-primary">
+            Crear Sala
+        </button>
+        <a href="/" class="btn-back">
+            <i class="fa-solid fa-reply"></i> Volver al inicio
+        </a>
+    </div>
+</div>
+<script src="/js/main.js"></script>
+<script src="/js/crear-sala.js"></script>
+</body>
+</html>

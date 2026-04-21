@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie','inicio')}"></head>
+<body class="main-body">
+<div class="bg-glow"></div>
+<header class="navbar">
+    <div class="navbar-inner">
+        <div class="logo">
+            <div class="logo-icon">
+                <i data-lucide="clapperboard"></i>
+            </div>
+            <span class="brand-name">WHA<span class="logo-highlight">VIE</span></span>
+        </div>
+        <div class="nav-actions" th:if="${usuario != null}">
+            <span class="nav-greeting">¡Hola, <strong th:text="${usuario.username}"></strong>!</span>
+            <form id="logoutForm" th:action="@{/api/auth/logout}" method="post" style="display:inline">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button type="button" id="btnLogout" class="nav-icon-btn" title="Cerrar sesión">
+                    <i data-lucide="log-out"></i>
+                </button>
+            </form>
+        </div>
+        <div class="nav-actions" th:if="${usuario == null}">
+            <a href="/login" class="nav-pill">Iniciar sesión</a>
+            <a href="/registro" class="nav-pill highlight">Registrarse</a>
+        </div>
+    </div>
+</header>
+<main class="hero-section">
+    <h1 class="hero-title">¿Qué vemos hoy?</h1>
+    <p class="hero-subtitle">Creá una sala, invitá a tus amigos y hagan match en segundos.</p>
+    <div class="hero-buttons">
+        <button onclick="window.location.href='/crear-sala'" class="btn-gradient">
+            <i class="fa-solid fa-plus plus-icon"></i> Crear Sala
+        </button>
+        <button id="btnUnirseCodigo" class="btn-outline" onclick="window.location.href='/unirse'">
+            Unirse con Código
+        </button>
+    </div>
+</main>
+<section class="how-it-works">
+    <h2 class="section-title">¿Cómo funciona?</h2>
+    <div class="steps-grid">
+        <div class="step-card">
+            <span class="step-num">1. Creá una sala</span>
+            <p>Solo los usuarios registrados pueden crear una.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-num">2. Invitá amigos</span>
+            <p>Compartí el link o el código de la sala.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-num">3. Hagan match</span>
+            <p>Swipeen y descubran la peli perfecta.</p>
+        </div>
+    </div>
+</section>
+<section class="solo-mode">
+    <div class="solo-container">
+        <h2 class="section-title">Descubrí tu próxima película</h2>
+        <p class="solo-text">
+            Probá el modo individual de Whavie. Iniciá sesión, guardá tus preferencias
+            y recibí recomendaciones personalizadas basadas en tus gustos.
+        </p>
+        <div class="solo-buttons">
+            <button onclick="window.location.href='/modo-individual'" class="btn-gradient">
+                <i class="fa-solid fa-compass"></i> Empezar a descubrir
+            </button>
+        </div>
+    </div>
+</section>
+<footer class="main-footer">
+    <p>© 2026 Whavie</p>
+</footer>
+<script>
+    lucide.createIcons();
+</script>
+<script src="/js/inicio.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

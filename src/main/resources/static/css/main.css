@@ -1,0 +1,509 @@
+/* ===========================
+   VARIABLES GLOBALES
+   =========================== */
+/* Define las variables de colores y efectos principales del tema */
+:root {
+    /* Colores de fondo */
+    --bg-dark: #0d1117;
+    --card-bg: #161b22;
+
+    /* Colores primarios - Púrpura */
+    --primary-purple: #8b5cf6;
+    --primary-purple-hover: #7c3aed;
+
+    /* Colores de texto */
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+
+    /* Otros colores */
+    --tag-bg: #21262d;
+    --glow-effect: 0px 0px 50px rgba(139, 92, 246, 0.15);
+}
+
+/* ===========================
+   RESET
+   =========================== */
+/* Reset de estilos por defecto del navegador */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* ===========================
+   BODY VARIANTS
+   =========================== */
+/* Variante principal - Página de inicio y general */
+body.main-body {
+    background-color: var(--bg-dark);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Variante para salas - Votación y sala */
+body.sala-body {
+    background-color: var(--bg-dark);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+
+/* Variante para autenticación - Login y registro */
+body.auth-body {
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.08) 0%, rgb(13, 17, 23) 70%), var(--bg-dark);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ===========================
+   GLOW DE FONDO
+   =========================== */
+/* Animación del efecto de brillo flotante */
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+/* Contenedor del efecto glow de fondo */
+.bg-glow {
+    --glow-top: -200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Efecto visual radial de brillo */
+.bg-glow::before {
+    content: '';
+    position: absolute;
+    top: var(--glow-top, -200px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+    animation: pulse-glow 4s ease-in-out infinite;
+    transition: top 0.8s ease;
+}
+
+/* ===========================
+   NAVBAR
+   =========================== */
+/* Contenedor principal de la barra de navegación */
+.navbar {
+    user-select: none;
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Contenedor interno con espaciado entre elementos */
+.navbar-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Logo principal de la aplicación */
+.logo {
+    font-weight: 800;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Icono del logo */
+.logo-icon {
+    transform: translateY(2px);
+    margin-right: 5px;
+}
+
+/* Texto con gradiente animado en el logo */
+.logo-highlight {
+    background: linear-gradient(90deg, #8b5cf6, #a78bfa, #8b5cf6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-move 3s linear infinite;
+    background-size: 200% auto;
+}
+
+@keyframes gradient-move {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ===========================
+   NAV PILLS (BOTONES DE NAVEGACIÓN)
+   =========================== */
+/* Contenedor de acciones en la barra de navegación */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Botones tipo "pill" en la navegación */
+.nav-pill {
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    color: #a1a1aa;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    white-space: nowrap;
+}
+
+/* Estado hover de los botones pill */
+.nav-pill:hover {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Estilo activo/resaltado de los botones pill */
+.nav-pill.highlight {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Hover del botón pill resaltado */
+.nav-pill.highlight:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+}
+
+/* Saludo personalizado en la barra de navegación */
+.nav-greeting {
+    user-select: none;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 1px;
+}
+
+/* Nombre del usuario con gradiente animado en el saludo */
+.nav-greeting strong {
+    font-weight: 800;
+    background: linear-gradient(90deg, #8b5cf6, #a78bfa, #8b5cf6);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-move 3s linear infinite;
+}
+
+@keyframes gradient-move {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ===========================
+   TIPOGRAFÍA GENERAL
+   =========================== */
+/* Título principal del hero */
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* Subtítulo del hero */
+.hero-subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+/* Título de encabezado principal */
+.header-title {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Parte con gradiente del header title */
+.header-title span {
+    background: linear-gradient(90deg, #8b5cf6, #a78bfa, #8b5cf6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-move 3s linear infinite;
+    background-size: 200% auto;
+}
+
+@keyframes gradient-move {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* ===========================
+   BOTONES
+   =========================== */
+/* Botón principal con gradiente animado */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(90deg, #8b5cf6, #5b21d1);
+    background-size: 200% 100%;
+    background-position: left;
+    transition: background-position 0.4s ease;
+}
+
+/* Hover del botón principal con movimiento de gradiente */
+.btn-primary:hover {
+    background-position: right;
+}
+
+/* Botón con gradiente y sombra */
+.btn-gradient {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    border: none;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Hover del botón con gradiente - sube y aumenta sombra */
+.btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6);
+}
+
+/* Botón para volver atrás */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #6b7280;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+/* Hover del botón atrás */
+.btn-back:hover {
+    color: #a1a1aa;
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+/* ===========================
+   INPUTS
+   =========================== */
+/* Grupo de inputs con etiqueta */
+.input-group {
+    margin-bottom: 20px;
+}
+
+/* Etiqueta del input */
+.input-group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+    color: var(--text-main);
+}
+
+/* Campo de entrada de texto */
+.input-group input {
+    width: 100%;
+    padding: 14px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #0d1117;
+    font-size: 14px;
+    color: #ffffff;
+    outline: none;
+}
+
+/* Placeholder del input */
+.input-group input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Focus del input con efecto de glow */
+.input-group input:focus {
+    box-shadow: 0 0 0 2px var(--primary-purple);
+    border-color: var(--primary-purple);
+}
+
+/* ===========================
+   CARTAS DE PELÍCULAS
+   =========================== */
+/* Grid para mostrar cartas apiladas */
+.card-stack {
+    display: grid;
+    grid-template-areas: "stack";
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+}
+
+/* ===========================
+   SWEETALERT CUSTOM
+   =========================== */
+/* Popup personalizado redondeado */
+.rounded-popup {
+    background: #1e1e2e;
+    color: #ffffff;
+    border-radius: 25px !important;
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+    margin: auto !important;
+    padding: 20px !important;
+}
+
+/* Botón personalizado del popup */
+.rounded-button {
+    color: #ffffff;
+    border-radius: 15px !important;
+}
+
+/* Botón de cancelar */
+.cancel-button {
+    background-color: #e74c3c !important;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+/* Pie de página principal */
+.main-footer {
+    margin-top: auto;
+    padding: 10px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+/* Adaptación para dispositivos móviles y tabletas */
+@media (max-width: 768px) {
+    /* Navbar en móvil - centrado */
+    .navbar {
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .navbar-inner {
+        gap: 16px;
+    }
+
+    /* Botones pill más pequeños */
+    .nav-pill {
+        padding: 6px 14px;
+        font-size: 0.78rem;
+    }
+
+    /* Saludo más pequeño */
+    .nav-greeting {
+        font-size: 1rem;
+    }
+
+    /* Contenedor principal ajustado */
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    /* Sidebar ancho completo */
+    .sidebar {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    /* Lista de participantes con altura limitada */
+    .participant-list {
+        max-height: 220px;
+    }
+
+    /* Contenedor de contenido ancho completo */
+    .content-wrapper {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    /* Card con menos padding */
+    .content-card {
+        padding: 20px 15px;
+    }
+
+    /* Header title más pequeño */
+    .header-title {
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+
+    /* Contenedor de notificaciones ajustado */
+    #notificacion-container {
+        top: 70px;
+        right: 10px;
+        left: 10px;
+        align-items: center;
+    }
+
+    /* Glow más pequeño en móvil */
+    .bg-glow::before {
+        width: 500px;
+        height: 500px;
+    }
+}

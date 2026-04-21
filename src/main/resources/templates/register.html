@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie - Registro', 'auth')}"></head>
+<body class="auth-body">
+<div class="auth-wrapper">
+    <div id="error-msg" class="aviso-auth aviso-error" style="display:none;"></div>
+    <div id="success-msg" class="aviso-auth aviso-success" style="display:none;"></div>
+    <div class="auth-container">
+        <div class="auth-header">
+            <a th:href="@{/login}"
+               class="tab"
+               th:classappend="${pagina == 'login'} ? 'active'">
+                INICIAR SESIÓN
+            </a>
+            <a th:href="@{/registro}"
+               class="tab"
+               th:classappend="${pagina == 'register'} ? 'active'">
+                REGISTRARSE
+            </a>
+        </div>
+        <form id="registerForm" class="auth-form">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" autocomplete="email" placeholder="ejemplo@mail.com"
+                       required>
+            </div>
+            <div class="input-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" autocomplete="username" placeholder="pepito123"
+                       required>
+            </div>
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" autocomplete="new-password" required
+                       placeholder="••••••••">
+            </div>
+            <div class="input-group">
+                <label for="confirmPassword">Repetir Contraseña</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" required
+                       placeholder="••••••••">
+            </div>
+            <button type="button" id="btn-registrar" class="btn-primary">Crear cuenta</button>
+        </form>
+        <div class="auth-footer">
+            <p>¿Ya tienes una cuenta? <a th:href="@{/login}">Inicia sesión aquí.</a></p>
+        </div>
+    </div>
+</div>
+<script src="/js/main.js"></script>
+<script src="/js/register.js"></script>
+</body>
+</html>

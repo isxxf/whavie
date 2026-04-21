@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie - Votación','votacion')}"></head>
+<body class="sala-body">
+<div class="vote-header">
+    <div class="header-title" style="user-select: none">
+        Wha<span>vie</span> — ¿Qué vemos hoy?
+    </div>
+</div>
+<div class="card-stack" id="cardStack">
+    <div th:each="peli, iterStat : ${peliculas}"
+         class="movie-card"
+         th:data-id="${peli.tmdbId}"
+         th:style="'z-index: ' + (1000 - ${iterStat.index})">
+        <input type="hidden" class="movie-id" th:value="${peli.tmdbId}">
+        <h1 class="movie-title" th:text="${peli.titulo}">Título de la Película</h1>
+        <div class="poster-container">
+            <div class="poster-wrapper">
+                <img th:src="${peli.posterPath}" class="movie-poster" alt="Póster de la película">
+                <div th:if="${peli.posterPath.contains('giphy') or peli.posterPath.contains('placeholder')}"
+                     class="no-poster-overlay">
+                    <p>No se ha encontrado el poster de la pelicula.</p>
+                </div>
+                <div class="movie-tags-overlay">
+                    <span th:each="gen : ${peli.generos}"
+                          class="genre-pill"
+                          th:text="${gen}">Género</span>
+                </div>
+                <div class="platform-badges" th:if="${not #lists.isEmpty(peli.plataformasLogos)}">
+                    <th:block th:each="logo, stat : ${peli.plataformasLogos}">
+                        <img th:src="'https://image.tmdb.org/t/p/w45' + ${logo}"
+                             th:if="${logo != null}"
+                             th:alt="${peli.plataformas[stat.index]}"
+                             th:title="${peli.plataformas[stat.index]}"
+                             class="platform-logo"
+                             onerror="this.style.display='none'"/>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+        <div class="movie-info-content">
+            <p class="movie-sinopsis">
+                <span th:if="${peli.sinopsis != null and !peli.sinopsis.isEmpty()}"
+                      th:text="${peli.sinopsis}"></span>
+                <span th:unless="${peli.sinopsis != null and !peli.sinopsis.isEmpty()}"
+                      style="font-style: italic; color: #94a3b8;">
+                        No se ha encontrado un resumen para esta película.
+                </span>
+            </p>
+            <ul class="movie-details-list">
+                <li><strong>Director:</strong> <span
+                        th:text="${peli.directores != null ? #strings.listJoin(peli.directores, ', ') : 'No disponible'}">Nombre</span>
+                </li>
+                <li><strong>Cast:</strong>
+                    <span th:text="${peli.cast != null ? #strings.listJoin(peli.cast, ', ') : 'No disponible'}">Actor 1, Actor 2</span>
+                </li>
+                <li>
+                    <strong>Idioma original:</strong>
+                    <span th:text="${peli.idiomaOriginal}"></span>
+                </li>
+                <li><strong>Fecha de estreno:</strong> <span th:text="${peli.fechaEstreno}">2024</span></li>
+            </ul>
+        </div>
+        <div class="stamp like-stamp">LIKE</div>
+        <div class="stamp nope-stamp">NOPE</div>
+    </div>
+    <div class="no-more-cards" style="z-index: 0; text-align: center; padding-top: 50px;">
+        <h3>Esperando el resultado del grupo...</h3>
+    </div>
+</div>
+<div class="swipe-instructions">
+    &larr; Izquierda: NOPE <span class="divider">|</span> Derecha: LIKE &rarr;
+</div>
+<script>
+    lucide.createIcons();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script th:inline="javascript">
+    const SALA_CODIGO = /*[[${codigo}]]*/ 'DEFAULT_ID';
+    const USUARIO_NOMBRE = /*[[${nombreActual}]]*/ 'Invitado';
+</script>
+<script src="/js/votacion.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

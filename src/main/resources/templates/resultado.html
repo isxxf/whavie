@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie - Resultado','resultado')}"></head>
+<body class="result-body">
+<div class="bg-glow"></div>
+<header class="navbar">
+    <div class="logo">
+        <div class="logo-icon">
+            <i data-lucide="clapperboard"></i>
+        </div>
+        <span class="brand-name">WHA<span class="logo-highlight">VIE</span></span>
+    </div>
+</header>
+<main class="result-main">
+    <div th:switch="${tipoResultado}">
+        <div th:case="'individual'" class="result-badge mayoria">
+            🎬 ¡Tu elección! 🎬
+        </div>
+        <div th:case="'match'" class="result-badge match">
+            ✨ ¡Hubo Match! ✨
+        </div>
+        <div th:case="'mayoria'" class="result-badge mayoria">
+            😬 Ganadora por mayoría 😬
+        </div>
+    </div>
+    <h1 class="result-title" th:switch="${tipoResultado}">
+        <span th:case="'individual'">¡Elegiste esta pelicula!</span>
+        <span th:case="'match'">¡Todos estuvieron de acuerdo!</span>
+        <span th:case="'mayoria'">La sala eligió esta película</span>
+    </h1>
+    <p class="result-subtitle" th:switch="${tipoResultado}">
+        <span th:case="'individual'">¡Buena elección!</span>
+        <span th:case="'match'">A todos les gustó esta película. ¡Es hora de verla!</span>
+        <span th:case="'mayoria'">No hubo acuerdo total, pero la mayoría votó por esta.</span>
+    </p>
+    <div class="movie-result-card">
+        <div class="poster-side">
+            <img class="movie-poster-result"
+                 th:src="${pelicula.posterPath}"
+                 th:alt="${pelicula.titulo}"
+                 onerror="this.src='https://via.placeholder.com/280x420/161b22/8b5cf6?text=Sin+Póster'"/>
+            <div class="poster-overlay"></div>
+        </div>
+        <div class="info-side">
+            <div>
+                <h2 class="movie-result-title" th:text="${pelicula.titulo}"></h2>
+                <div class="movie-title-meta">
+                    <p class="movie-result-rating rating-stars" th:if="${pelicula.rating != null}">
+                        ⭐ <span th:text="${#numbers.formatDecimal(pelicula.rating, 1, 1)}"></span>
+                    </p>
+                    <span class="meta-divider" th:if="${pelicula.rating != null}">|</span>
+                    <p class="movie-result-year" th:text="${pelicula.fechaEstreno}"></p>
+                </div>
+                <div class="movie-genres">
+                    <span th:each="genero : ${pelicula.generos}" class="genre-chip" th:text="${genero}"></span>
+                </div>
+                <div class="platform-list" th:if="${not #lists.isEmpty(pelicula.plataformasLogos)}">
+                    <th:block th:each="logo, stat : ${pelicula.plataformasLogos}">
+                        <div class="platform-item">
+                            <img th:src="'https://image.tmdb.org/t/p/w45' + ${logo}"
+                                 th:alt="${pelicula.plataformas[stat.index]}"
+                                 class="platform-logo-result"/>
+                            <span th:text="${pelicula.plataformas[stat.index]}"></span>
+                        </div>
+                    </th:block>
+                </div>
+                <p class="movie-result-overview">
+                    <span th:if="${pelicula.sinopsis != null and !pelicula.sinopsis.isEmpty()}"
+                          th:text="${pelicula.sinopsis}"></span>
+                    <span th:unless="${pelicula.sinopsis != null and !pelicula.sinopsis.isEmpty()}"
+                          style="font-style: italic; color: #94a3b8;">
+                            No se encontró un resumen para esta película.
+                    </span>
+                </p>
+                <ul class="movie-details-result">
+                    <li>
+                        <strong>Director:</strong>
+                        <span th:text="${pelicula.directores != null and not #lists.isEmpty(pelicula.directores)
+                        ? #strings.listJoin(pelicula.directores, ', ')
+                        : 'No disponible'}"></span>
+                    </li>
+                    <li>
+                        <strong>Reparto:</strong>
+                        <span th:text="${pelicula.cast != null and not #lists.isEmpty(pelicula.cast)
+                            ? #strings.listJoin(pelicula.cast, ', ')
+                        : 'No disponible'}"></span>
+                    </li>
+                    <li th:if="${pelicula.idiomaOriginal != null}">
+                        <strong>Idioma original:</strong>
+                        <span th:text="${pelicula.idiomaOriginal}"></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="result-actions">
+                <a href="/" class="btn-back">
+                    <i class="fa-solid fa-reply"></i> Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="letterboxd-section">
+        <p style="user-select: none">¿Ya la viste? <strong>Hacé una reseña en Letterboxd</strong></p>
+        <a th:href="'https://letterboxd.com/search/' + ${pelicula.titulo}"
+           target="_blank"
+           class="btn-letterboxd">
+            <img src="https://a.ltrbxd.com/logos/letterboxd-logo-h-neg-rgb-1000px.png"
+                 alt="Letterboxd"
+                 class="letterboxd-logo"/>
+        </a>
+    </div>
+</main>
+<script>
+    lucide.createIcons();
+</script>
+<script th:inline="javascript">
+    const esMatch = /*[[${esMatch}]]*/ false;
+    if (esMatch && typeof confetti !== 'undefined') {
+        setTimeout(() => {
+            confetti({particleCount: 150, spread: 70, origin: {x: 0, y: 0.6}});
+            confetti({particleCount: 150, spread: 70, origin: {x: 1, y: 0.6}});
+        }, 500);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie - Modo Individual','modo-individual')}"></head>
+<body class="main-body">
+<div class="bg-glow"></div>
+<header class="navbar">
+    <div class="navbar-inner">
+        <div class="logo">
+            <div class="logo-icon">
+                <i data-lucide="clapperboard"></i>
+            </div>
+            <span class="brand-name">WHA<span class="logo-highlight">VIE</span></span>
+        </div>
+        <a href="/" class="nav-pill">← Volver al inicio</a>
+    </div>
+</header>
+<main class="descubrir-main">
+    <div class="descubrir-hero">
+        <h1 class="hero-title">Modo Individual</h1>
+        <p class="hero-subtitle">Configurá tus preferencias y descubrí tu próxima película.</p>
+    </div>
+    <div class="preferencias-panel" id="preferencias-panel">
+        <div class="panel-header">
+            <h3>Mis preferencias</h3>
+            <span class="guardado-badge" id="guardado-badge">
+                <i class="fa-solid fa-check"></i> Guardado
+            </span>
+        </div>
+        <div class="filter-section">
+            <h4>¿Qué género preferís?</h4>
+            <div class="tags-container">
+                <div th:each="g : ${generos}"
+                     class="tag"
+                     th:text="${g.name}"
+                     data-tipo="genero"
+                     th:data-id="${g.id}">Género
+                </div>
+            </div>
+        </div>
+        <div class="filter-section">
+            <h4>¿En qué plataforma?</h4>
+            <div class="tags-container">
+                <div th:each="p : ${plataformas}"
+                     class="tag"
+                     th:text="${p.name}"
+                     data-tipo="plataforma"
+                     th:data-id="${p.id}">Plataforma
+                </div>
+            </div>
+        </div>
+        <div class="filter-section">
+            <h4>¿Época?</h4>
+            <div class="tags-container">
+                <div th:each="e : ${epocas}"
+                     class="tag"
+                     th:text="${e.name}"
+                     data-tipo="epoca"
+                     th:data-id="${e.id}">Época
+                </div>
+            </div>
+        </div>
+        <div class="filter-section">
+            <h4>Clasificación de edad</h4>
+            <div class="tags-container">
+                <div th:each="a : ${clasificacionesEdad}"
+                     class="tag"
+                     th:text="${a.name}"
+                     data-tipo="clasificacion"
+                     th:data-id="${a.id}">Clasificación
+                </div>
+            </div>
+        </div>
+        <div class="filter-section">
+            <h4>Idioma original
+                <div class="tooltip-container">
+                    <span class="info-icon">i</span>
+                    <span class="tooltip-text">El idioma en que fue producida la película. Combinado con otros filtros puede limitar mucho los resultados.</span>
+                </div>
+            </h4>
+            <div class="tags-container">
+                <div th:each="l : ${idiomas}"
+                     class="tag"
+                     th:text="${l.name}"
+                     data-tipo="idioma"
+                     th:data-id="${l.id}">Idioma
+                </div>
+            </div>
+        </div>
+        <div class="filter-section">
+            <h4>Actores</h4>
+            <div class="search-filter-wrapper">
+                <input type="text" id="input-actor" class="search-filter-input" placeholder="Buscar actor y presionar Enter...">
+            </div>
+            <div class="tags-container" id="actores-container"></div>
+        </div>
+        <div class="filter-section">
+            <h4>Directores</h4>
+            <div class="search-filter-wrapper">
+                <input type="text" id="input-director" class="search-filter-input" placeholder="Buscar director y presionar Enter...">
+            </div>
+            <div class="tags-container" id="directores-container"></div>
+        </div>
+        <button id="btn-descubrir" class="btn-gradient" style="width:100%; margin-top: 24px; justify-content: center;">
+            <i class="fa-solid fa-compass"></i> Buscar películas
+        </button>
+    </div>
+    <div class="descubrir-cards-wrapper" id="cards-wrapper" style="display:none;">
+        <button id="btn-volver-preferencias" class="btn-volver-pref">
+            ← Cambiar preferencias
+        </button>
+        <div class="card-stack" id="cardStack"></div>
+        <div class="swipe-instructions">
+            &larr; Izquierda: NOPE <span class="divider">|</span> Derecha: LIKE &rarr;
+        </div>
+    </div>
+</main>
+<script>
+    lucide.createIcons();
+</script>
+<script th:inline="javascript">
+    const PREFERENCIAS = /*[[${preferencias}]]*/ {};
+    const GENEROS_DATA = /*[[${generos}]]*/ [];
+    const PLATAFORMAS_DATA = /*[[${plataformas}]]*/ [];
+    const IDIOMAS_DATA = /*[[${idiomas}]]*/ [];
+    const EPOCAS_DATA = /*[[${epocas}]]*/ [];
+    const CLASIFICACIONES_DATA = /*[[${clasificacionesEdad}]]*/ [];
+</script>
+<script src="/js/main.js"></script>
+<script src="/js/modo-individual.js"></script>
+</body>
+</html>

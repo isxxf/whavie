@@ -1,0 +1,503 @@
+/* ===========================
+   SALA DE VOTACIÓN
+   =========================== */
+
+/* ===========================
+   SECCIÓN HERO
+   =========================== */
+/* Sección hero en la sala */
+.hero-section-sala {
+    text-align: center;
+    padding: 0 20px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* ===========================
+   SIDEBAR - PARTICIPANTES
+   =========================== */
+/* Panel lateral con información de la sala */
+.sidebar {
+    background: #161B22FF;
+    border-radius: 12px;
+    padding: 20px;
+    width: 260px;
+    flex-shrink: 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Títulos en el sidebar */
+.sidebar h3 {
+    font-size: 0.9rem;
+    color: #A1A1AAFF;
+    margin-bottom: 15px;
+}
+
+/* ===========================
+   CÓDIGO DE SALA
+   =========================== */
+/* Contenedor del código de la sala */
+.room-code-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Encabezado del código en contenedor */
+.room-code-container h3 {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: #FFFFFFFF;
+    letter-spacing: 1px;
+}
+
+/* ===========================
+   NOTIFICACIONES
+   =========================== */
+/* Contenedor flotante de notificaciones */
+#notificacion-container {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ===========================
+   BOTONES
+   =========================== */
+/* Botón para copiar código */
+.btn-copy {
+    background: transparent;
+    border: none;
+    color: #8B5CF6FF;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 5px;
+}
+
+/* Hover del botón copiar */
+.btn-copy:hover {
+    color: white;
+    transform: scale(1.1);
+}
+
+/* ===========================
+   LISTA DE PARTICIPANTES
+   =========================== */
+/* Lista de participantes con scroll */
+.participant-list {
+    list-style: none;
+    width: 101%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Scrollbar personalizada */
+.participant-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Thumb de scrollbar */
+.participant-list::-webkit-scrollbar-thumb {
+    background-color: #8B5CF6FF;
+    border-radius: 4px;
+}
+
+/* Item participante individual */
+.participant-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 8px 12px;
+    transition: all 0.2s ease;
+}
+
+/* Hover del item participante */
+.participant-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateX(4px);
+}
+
+/* ===========================
+   AVATAR DEL PARTICIPANTE
+   =========================== */
+/* Contenedor del avatar */
+.avatar-container {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+/* Imagen del avatar */
+.avatar-mini {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #5d5d5d;
+}
+
+/* Corona (host) override avatar */
+.crown-icon {
+    position: absolute;
+    top: -8px;
+    left: -5px;
+    font-size: 1rem;
+    transform: rotate(-15deg);
+    filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+/* ===========================
+   INFORMACIÓN DEL PARTICIPANTE
+   =========================== */
+/* Fila con nombre e info */
+.name-info-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Texto del nombre del participante */
+.name-text {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+}
+
+/* Badge de anfitrión (host) */
+.host-badge-inline {
+    font-size: 0.7rem;
+    color: #ffd700;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-left: auto;
+}
+
+/* ===========================
+   CONTENEDOR DE CONTENIDO
+   =========================== */
+/* Card principal de contenido */
+.content-card {
+    background: #161B22FF;
+    border-radius: 12px;
+    padding: 30px;
+    flex-grow: 1;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor principal (sidebar + contenido) */
+.main-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 25px;
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 20px;
+    margin: 0 auto 50px auto;
+}
+
+/* ===========================
+   FILTROS Y TAGS
+   =========================== */
+/* Sección de filtros */
+.filter-section {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.filter-section:last-child {
+    margin-bottom: 0;
+}
+
+/* Título de sección de filtro */
+.filter-section h4 {
+    font-size: 0.9rem;
+    color: #8B5CF6FF;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    flex-wrap: wrap;
+}
+
+/* Contenedor de tags */
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Tag individual */
+.tag {
+    background: #21262DFF;
+    border: 1px solid transparent;
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    color: #A1A1AAFF;
+}
+
+/* Tag activo/seleccionado */
+.tag.active {
+    background: #8B5CF6FF;
+    color: white;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Hover del tag no activo */
+.tag:hover:not(.active) {
+    border-color: #8B5CF6FF;
+    color: white;
+}
+
+/* ===========================
+   CONTENEDOR DE CONTENIDO
+   =========================== */
+/* Wrapper del contenedor de contenido */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* ===========================
+   SECCIÓN DE ACCIONES
+   =========================== */
+/* Sección con botones de acción */
+.action-section {
+    text-align: center;
+    margin-top: 25px;
+    width: 100%;
+}
+
+/* Texto de espera */
+.waiting-text {
+    color: var(#A1A1AAFF, #aaa);
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+/* Botón para iniciar votación */
+.btn-start {
+    background: #8B5CF6FF;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+/* Hover del botón iniciar */
+.btn-start:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+}
+
+/* ===========================
+   AVISOS
+   =========================== */
+/* Aviso para invitados */
+.aviso-invitado {
+    background-color: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Icono dentro del aviso */
+.aviso-invitado i {
+    font-size: 1.2rem;
+}
+
+/* ===========================
+   TOOLTIP / AYUDA
+   =========================== */
+/* Contenedor del tooltip */
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+/* Icono de información */
+.info-icon {
+    background-color: #e2e8f0;
+    color: #475569;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    text-transform: none;
+}
+
+/* Texto del tooltip */
+.tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #334155;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 10px;
+    position: absolute;
+    z-index: 10;
+    bottom: 130%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.72rem;
+    line-height: 1.3;
+    font-weight: normal;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: calc(100vw - 40px);
+}
+
+/* Flecha del tooltip */
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: #334155 transparent transparent transparent;
+}
+
+/* Mostrar tooltip en hover */
+.tooltip-container:hover .tooltip-text,
+.tooltip-container:active .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+/* Adaptación para dispositivos medios - Tooltip en tablet */
+@media (max-width: 768px) {
+    .tooltip-text {
+        width: 160px;
+        bottom: 120%;
+        font-size: 0.7rem;
+        padding: 8px;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        max-width: calc(100vw - 60px);
+    }
+
+    .tooltip-text::after {
+        bottom: -6px;
+        top: auto;
+    }
+}
+
+/* Adaptación para móviles - Layout en columna */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 0 10px;
+    }
+
+    /* Sidebar ancho completo */
+    .sidebar {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Lista de participantes limitada */
+    .participant-list {
+        max-height: 220px;
+    }
+
+    /* Contenedor de contenido ancho completo */
+    .content-wrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Card con padding reducido */
+    .content-card {
+        padding: 20px;
+    }
+
+    /* Header title más pequeño */
+    .header-title {
+        font-size: 1.1rem;
+        margin-top: 20px;
+    }
+
+    /* Notificaciones ajustadas */
+    #notificacion-container {
+        top: 70px;
+        right: 10px;
+        left: 10px;
+        align-items: center;
+    }
+
+    /* Secc iones de filtro con menos margen */
+    .filter-section {
+        margin-bottom: 20px;
+    }
+
+    /* Tags más compactos */
+    .tags-container {
+        gap: 8px;
+    }
+
+    .tag {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+    }
+}

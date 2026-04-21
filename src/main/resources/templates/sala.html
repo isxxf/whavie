@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: comun('Whavie - Sala','sala')}"></head>
+<body class="sala-body">
+<main class="hero-section-sala">
+    <div class="header-title" style="user-select: none">
+        Wha<span>vie</span> — ¿Qué vemos hoy?
+    </div>
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="room-code-container">
+                <h3>Sala #<span id="roomCodeText" th:text="${sala.codigo}">ABX921</span></h3>
+                <button onclick="copiarCodigo()" class="btn-copy" title="Copiar código">
+                    <i class="fas fa-copy" id="copyIcon"></i>
+                </button>
+            </div>
+            <p style="font-size: 0.8rem; font-weight: 600; margin-bottom: 10px;">
+                Participantes
+                <span id="contador-online" th:text="${1 + #lists.size(participantes)}">1</span>[[${'/' +
+                sala.maxParticipantes}]]
+            </p>
+            <ul class="participant-list">
+                <li class="participant-item host">
+                    <div class="avatar-container">
+                        <img th:src="${creador.avatar}" class="avatar-mini" alt="avatar">
+                        <span class="crown-icon">👑</span>
+                    </div>
+                    <div class="name-info-row">
+                        <span class="name-text">[[${creador.username}]]</span>
+                        <small class="host-badge-inline">(Host)</small>
+                    </div>
+                </li>
+
+                <li th:each="p : ${participantes}" class="participant-item">
+                    <div class="avatar-container">
+                        <img th:src="${p.avatarUrl}" class="avatar-mini" alt="avatar">
+                    </div>
+                    <div class="name-info">
+                        <span class="name-text" th:text="${p.displayName}">Nombre</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="content-wrapper">
+            <div th:unless="${esAnfitrion}" class="aviso-invitado">
+                <i class="fas fa-info-circle"></i> Solo el host puede modificar los filtros.
+            </div>
+            <div class="content-card" th:style="${!esAnfitrion ? 'pointer-events: none; opacity: 0.6;' : ''}">
+                <div class="filter-section">
+                    <h4>¿Qué género prefieren?</h4>
+                    <div class="tags-container">
+                        <div th:each="g : ${generos}" class="tag"
+                             th:text="${g.name}"
+                             data-tipo="genero"
+                             th:data-id="${g.id}">
+                            Género
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>¿En qué plataforma buscan?
+                        <div class="tooltip-container">
+                            <span class="info-icon">i</span>
+                            <span class="tooltip-text">Si no elegís ninguna, pueden salir películas que solo están en cines o disponibles en otras plataformas</span>
+                        </div>
+                    </h4>
+                    <div class="tags-container">
+                        <div th:each="p : ${plataformas}"
+                             class="tag"
+                             th:text="${p.name}"
+                             data-tipo="plataforma"
+                             th:data-id="${p.id}">Plataforma
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>¿Época?</h4>
+                    <div class="tags-container">
+                        <div th:each="e : ${epocas}"
+                             class="tag"
+                             th:text="${e.name}"
+                             data-tipo="epoca"
+                             th:data-id="${e.id}">Época
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Clasificación de edad</h4>
+                    <div class="tags-container">
+                        <div th:each="a : ${clasificacionesEdad}"
+                             class="tag"
+                             th:text="${a.name}"
+                             data-tipo="clasificacion"
+                             th:data-id="${a.id}">Clasificacion
+                        </div>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h4>Idioma Original de la película
+                        <div class="tooltip-container">
+                            <span class="info-icon">i</span>
+                            <span class="tooltip-text">El idioma en que fue producida la película. Combinado con otros filtros puede limitar mucho los resultados.</span>
+                        </div>
+                    </h4>
+                    <div class="tags-container">
+                        <div th:each="l : ${idiomas}"
+                             class="tag"
+                             th:text="${l.name}"
+                             data-tipo="idioma"
+                             th:data-id="${l.id}">Idioma
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="action-section">
+                <button type="button" th:if="${esAnfitrion}" id="btn-empezar" class="btn-start">Empezar recomendación</button>
+                <p th:unless="${esAnfitrion}" class="waiting-text" style="user-select: none">
+                    Esperando a que el host inicie la recomendación...
+                </p>
+            </div>
+        </div>
+    </div>
+    <div id="notificacion-container"></div>
+</main>
+<script>
+    lucide.createIcons();
+</script>
+<script th:inline="javascript">
+    const SALA_CODIGO = /*[[${sala.codigo}]]*/ 'DEFAULT_ID';
+    const USUARIO_NOMBRE = /*[[${nombreActual}]]*/ 'Invitado';
+    const USUARIO_AVATAR = /*[[${avatarActual}]]*/ 'https://api.dicebear.com/7.x/bottts/svg?seed=Buster';
+    const ES_ANFITRION = /*[[${esAnfitrion}]]*/ false;
+</script>
+<script src="/js/main.js"></script>
+<script src="/js/sala.js"></script>
+</body>
+</html>
