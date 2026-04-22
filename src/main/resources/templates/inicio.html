@@ -13,7 +13,7 @@
         </div>
         <div class="nav-actions" th:if="${usuario != null}">
             <span class="nav-greeting">¡Hola, <strong th:text="${usuario.username}"></strong>!</span>
-            <form id="logoutForm" th:action="@{/api/auth/logout}" method="post" style="display:inline">
+            <form id="logoutForm" th:action="@{/api/auth/logout}" method="post">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <button type="button" id="btnLogout" class="nav-icon-btn" title="Cerrar sesión">
                     <i data-lucide="log-out"></i>

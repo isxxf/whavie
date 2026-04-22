@@ -57,7 +57,12 @@
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 5px;
+}
+
+.nav-actions form {
+    display: flex;
+    align-items: center;
 }
 
 /* Botones de navegación tipo pill */
@@ -372,6 +377,12 @@
         flex-direction: column;
         align-items: center;
         gap: 10px;
+    }
+
+    .plus-icon {
+        width: 22px;
+        height: 22px;
+        font-size: 12px;
     }
 
     /* Botones más pequeños */
