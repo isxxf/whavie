@@ -1,4 +1,4 @@
-package com.whavie.controller;
+package com.whavie.handlers;
 
 import com.whavie.dto.ErrorResponse;
 import com.whavie.exception.BadRequestException;

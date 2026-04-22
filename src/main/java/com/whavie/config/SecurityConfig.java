@@ -1,5 +1,6 @@
 package com.whavie.config;
 
+import com.whavie.handlers.OAuth2LoginSuccessHandler;
 import com.whavie.model.AuthProvider;
 import com.whavie.model.Usuario;
 import com.whavie.repository.UsuarioRepository;
@@ -30,6 +31,12 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    private final OAuth2LoginSuccessHandler oauth2LoginSuccessHandler;
+
+    public SecurityConfig(OAuth2LoginSuccessHandler oauth2LoginSuccessHandler) {
+        this.oauth2LoginSuccessHandler = oauth2LoginSuccessHandler;
+    }
 
     @Value("${remember.me.key}")
     private String rememberMeKey;
@@ -86,7 +93,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oauth2UserService)
                         )
-                        .defaultSuccessUrl("/", true)
+                        .successHandler(oauth2LoginSuccessHandler)
                 )
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout")
