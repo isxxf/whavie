@@ -95,7 +95,7 @@ public class WebSocketEventListener {
                     } catch (Exception e) {
                         log.error("Error al eliminar sala {}: {}", codigo, e.getMessage());
                     }
-                }, 5, TimeUnit.SECONDS);
+                }, 30, TimeUnit.SECONDS);
                 // Guardamos la tarea programada para poder cancelarla si el anfitrión regresa antes de que se ejecute
                 tareasDeBorrado.put(codigo, tarea);
             } else {
@@ -114,7 +114,7 @@ public class WebSocketEventListener {
                     } catch (Exception e) {
                         log.error("Error al eliminar participante de sala {}: {}", codigo, e.getMessage());
                     }
-                }, 8, TimeUnit.SECONDS);
+                }, 30, TimeUnit.SECONDS);
                 tareasDeBorrado.put(claveParticipante, tarea);
             }
         }
