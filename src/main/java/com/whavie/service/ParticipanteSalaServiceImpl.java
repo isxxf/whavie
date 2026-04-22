@@ -63,7 +63,7 @@ public class ParticipanteSalaServiceImpl implements ParticipanteSalaService {
         if (nombreNormalizado.isBlank()) {
             throw new IllegalArgumentException("El nombre del invitado no puede estar vacío");
         }
-        if (participanteSalaRepository.existsByNombreInvitadoAndSalaId(nombreNormalizado, sala.getId())) {
+        if (participanteSalaRepository.existeNombreEnSala(nombreNormalizado, sala.getId())) {
             throw new IllegalStateException("Ya existe un participante con ese nombre en la sala");
         }
         String tokenInvitado = UUID.randomUUID().toString();
