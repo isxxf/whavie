@@ -51,15 +51,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    max-width: 420px;
+    width: min(420px, calc(100% - 32px));
+    margin: 0 auto;
 }
 
 /* Contenedor principal del formulario */
 .auth-container {
     background-color: #161b22;
     width: 100%;
-    max-width: 420px;
     padding: 40px;
     border-radius: 16px;
     height: auto;
@@ -302,6 +301,10 @@
 @media (max-width: 480px) {
     .auth-container {
         padding: 22px;
+    }
+
+    .aviso-auth {
+        max-width: 100%;
     }
 
     .auth-header {
