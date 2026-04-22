@@ -170,6 +170,9 @@ public class SalaWebSocketController {
         headerAccessor.getSessionAttributes().put("nombre", nombre);
         headerAccessor.getSessionAttributes().put("codigo", codigo);
 
+        webSocketEventListener.cancelarBorradoSiExiste(codigo);
+        webSocketEventListener.cancelarBorradoParticipante(codigo, nombre);
+
         try {
             Long participanteId;
             if (principal != null) {
@@ -189,9 +192,6 @@ public class SalaWebSocketController {
         } catch (Exception e) {
             throw new IllegalStateException("No se pudo obtener participante para votación: " + e.getMessage(), e);
         }
-
-        webSocketEventListener.cancelarBorradoSiExiste(codigo);
-        webSocketEventListener.cancelarBorradoParticipante(codigo, nombre);
     }
 
     // Metodos auxiliares

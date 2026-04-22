@@ -23,4 +23,7 @@ public interface ParticipanteSalaRepository extends JpaRepository<ParticipanteSa
             "WHERE p.sala.id = :salaId " +
             "AND p.nombreInvitado = :nombre")
     boolean existsByNombreInvitadoAndSalaId(@Param("nombre") String nombreInvitado, @Param("salaId") Long salaId);
+    @Query("SELECT p FROM ParticipanteSala p WHERE p.usuario.id = :usuarioId AND p.sala.codigo = :codigoSala")
+    Optional<ParticipanteSala> findByUsuarioIdAndSalaCodigo(@Param("usuarioId") Long usuarioId,
+                                                            @Param("codigoSala") String codigoSala);
 }

@@ -121,7 +121,7 @@ public class ParticipanteSalaServiceImpl implements ParticipanteSalaService {
 
     @Override
     public Long buscarParticipanteRegistrado(String codigoSala, Long usuarioId) {
-        return participanteSalaRepository.findByUsuarioIdAndSalaId(usuarioId, obtenerSalaPorCodigo(codigoSala).getId())
+        return participanteSalaRepository.findByUsuarioIdAndSalaCodigo(usuarioId, codigoSala)
                 .orElseThrow(() -> new IllegalArgumentException("El participante registrado no existe"))
                 .getId();
     }
