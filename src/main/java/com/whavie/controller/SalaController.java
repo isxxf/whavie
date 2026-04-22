@@ -6,6 +6,7 @@ import com.whavie.model.Sala;
 import com.whavie.service.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -54,8 +55,8 @@ public class SalaController {
         if (principal == null) {
             throw new BadRequestException("Se requiere autenticación para crear una sala");
         }
-        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
-        Sala sala = salaService.crearSala(usuarioDTO.getId(), maxParticipantes);
+        Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+        Sala sala = salaService.crearSala(usuarioId, maxParticipantes);
         return ResponseEntity.ok(SalaDTO.fromEntity(sala));
     }
 
@@ -66,8 +67,8 @@ public class SalaController {
                                         Principal principal, HttpSession session) {
         if (principal != null) {
             // El usuario ya tiene cuenta. Buscamos su ID y lo anotamos.
-            UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
-            salaService.unirseSalaRegistrado(codigo, usuarioDTO.getId());
+            Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+            salaService.unirseSalaRegistrado(codigo, usuarioId);
             return ResponseEntity.ok("OK");
         } else {
             // Es un invitado. Validamos que se haya puesto un nombre.
@@ -92,8 +93,8 @@ public class SalaController {
                                        Principal principal) {
         if (principal != null) {
             // Si tiene cuenta, lo sacamos usando su ID
-            UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
-            salaService.salirSalaRegistrado(codigo, usuarioDTO.getId());
+            Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+            salaService.salirSalaRegistrado(codigo, usuarioId);
         } else {
             // Si es invitado, verificamos su token y lo sacamos
             if (tokenInvitado == null || tokenInvitado.isBlank()) {
@@ -107,8 +108,8 @@ public class SalaController {
     // Eliminar sala, solo el anfitrión puede hacer esto
     @DeleteMapping("/{codigo}")
     public ResponseEntity<?> eliminarSala(@PathVariable String codigo, Principal principal) {
-        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
-        salaService.eliminarSala(codigo, usuarioDTO.getId());
+        Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+        salaService.eliminarSala(codigo, usuarioId);
         return ResponseEntity.ok().build();
     }
 
@@ -116,20 +117,20 @@ public class SalaController {
     @PutMapping("/{codigo}/filtros")
     public ResponseEntity<?> aplicarFiltros(@PathVariable String codigo,
                                             @RequestBody FiltroSalaDTO filtroSala, Principal principal) {
-        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
-        filtroSalaService.guardarOActualizarFiltro(codigo, filtroSala, usuarioDTO.getId());
+        Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+        filtroSalaService.guardarOActualizarFiltro(codigo, filtroSala, usuarioId);
         return ResponseEntity.ok().body("Filtros aplicados correctamente a la sala " + codigo);
     }
 
     // Cambiamos el estado de la sala a "EN_VOTACION" y prepara las peliculas de acuerdo a los filtros seleccionados
     @PostMapping("/{codigo}/iniciar")
     public ResponseEntity<?> iniciarVotacion(@PathVariable String codigo, Principal principal) {
-        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
+        Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
         Sala sala = salaService.obtenerSala(codigo);
-        if (!sala.getCreador().getId().equals(usuarioDTO.getId())) {
+        if (!sala.getCreador().getId().equals(usuarioId)) {
             throw new BadRequestException("Solo el creador puede iniciar la votación");
         }
-        SalaDTO salaIniciada = salaService.iniciarVotacion(codigo, usuarioDTO.getId());
+        SalaDTO salaIniciada = salaService.iniciarVotacion(codigo, usuarioId);
         return ResponseEntity.ok(salaIniciada);
     }
 
@@ -144,8 +145,8 @@ public class SalaController {
         ResultadoRondaDTO resultado;
         // Identificamos quién votó y registramos su voto
         if (principal != null) {
-            UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
-            Long participanteId = participanteSalaService.buscarParticipanteRegistrado(codigo, usuarioDTO.getId());
+            Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+            Long participanteId = participanteSalaService.buscarParticipanteRegistrado(codigo, usuarioId);
             resultado = votoPeliculaService.votarPelicula(participanteId, voto);
         } else {
             if (tokenInvitado == null || tokenInvitado.isBlank()) {
@@ -167,4 +168,17 @@ public class SalaController {
         return ResponseEntity.ok(sala.getPeliculaActualTmdbId());
     }
 
+    private Long obtenerUsuarioIdDesdePrincipal(Principal principal) {
+        if (principal == null) {
+            throw new IllegalStateException("Usuario no autenticado");
+        }
+        if (principal instanceof OAuth2AuthenticationToken oauthToken) {
+            String email = oauthToken.getPrincipal().getAttribute("email");
+            if (email == null) {
+                throw new IllegalStateException("Email no disponible en OAuth2");
+            }
+            return usuarioService.obtenerUsuarioPorEmail(email).getId();
+        }
+        return usuarioService.obtenerUsuarioPorUsername(principal.getName()).getId();
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
@@ -55,26 +56,26 @@ public class SalaWebSocketController {
                                   @Payload Map<String, String> payload,
                                   SimpMessageHeaderAccessor headerAccessor,
                                   Principal principal) {
+        Map<String, Object> session = headerAccessor.getSessionAttributes();
+        if (session == null) {
+            throw new IllegalStateException("Sesión WebSocket no disponible");
+        }
+        // Guardamos usuarioId si es usuario autenticado
+        if (principal != null) {
+            Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+            session.put("usuarioId", usuarioId);
+        }
         String nombre = obtenerNombreUsuario(principal, headerAccessor);
         String avatar = payload.get("avatar");
-        // Si alguien recargó la página, se desconectó y se volvió a conectar rapido,
-        // no queremos avisar a los demás que se desconectó y volvió a conectar, porque no se fue realmente.
         boolean eraF5Anfitrion = false;
         boolean eraF5Participante = webSocketEventListener.cancelarBorradoParticipante(codigo, nombre);
-
         if (salaService.esAnfitrion(codigo, nombre)) {
             eraF5Anfitrion = webSocketEventListener.cancelarBorradoSiExiste(codigo);
         }
         boolean reconexionRapida = eraF5Anfitrion || eraF5Participante;
-
-        // Guardamos su nombre y sala en esta sesión de WebSocket para saber quién es si se desconecta
-        if (headerAccessor.getSessionAttributes() != null) {
-            headerAccessor.getSessionAttributes().put("nombre", nombre);
-            headerAccessor.getSessionAttributes().put("codigo", codigo);
-        }
-
-        // Si es un usuario realmente nuevo, le avisamos a todos los demás
-        // en la sala que se conectó este nuevo usuario.
+        // Guardamos datos básicos de sesión
+        session.put("nombre", nombre);
+        session.put("codigo", codigo);
         if (!reconexionRapida) {
             Map<String, String> mensaje = Map.of(
                     "accion", "NUEVO_USUARIO",
@@ -88,23 +89,25 @@ public class SalaWebSocketController {
     // Cuando el anfitrión le da al botón "Empezar". Esto es lo que va a buscar las películas.
     @MessageMapping("/sala/{codigo}/iniciar")
     public void iniciarVotacion(@DestinationVariable String codigo, @Payload Map<String, Object> payload,
-                                SimpMessageHeaderAccessor headerAccessor) {
+                                SimpMessageHeaderAccessor headerAccessor, Principal principal) {
+        Map<String, Object> session = headerAccessor.getSessionAttributes();
+        if (session == null) {
+            throw new IllegalStateException("Sesión inválida");
+        }
+        Long usuarioId = (Long) session.get("usuarioId");
+        if (usuarioId == null) {
+            usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+        }
         long participantesCount = participanteSalaService.contarParticipantes(codigo);
         if (participantesCount < 2) {
             return;
         }
-        if (headerAccessor.getSessionAttributes() == null) {
-            throw new IllegalStateException("Sesión inválida");
-        }
-        Long usuarioId = (Long) headerAccessor.getSessionAttributes().get("usuarioId");
         if (usuarioId == null) {
             throw new IllegalStateException("No se encontró el usuario en sesión");
         }
-
         @SuppressWarnings("unchecked")
         List<Map<String, String>> filtrosRecibidos = (List<Map<String, String>>) payload.get("filtros");
         FiltroSalaDTO filtroDTO = filtroSalaService.convertirFiltrosDelWebSocket(filtrosRecibidos);
-
         FiltroSala filtroEntidad = new FiltroSala();
         filtroDTO.updateEntity(filtroEntidad);
 
@@ -170,8 +173,8 @@ public class SalaWebSocketController {
         try {
             Long participanteId;
             if (principal != null) {
-                UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorUsername(principal.getName());
-                participanteId = participanteSalaService.buscarParticipanteRegistrado(codigo, usuarioDTO.getId());
+                Long usuarioId = obtenerUsuarioIdDesdePrincipal(principal);
+                participanteId = participanteSalaService.buscarParticipanteRegistrado(codigo, usuarioId);
             } else {
                 String tokenInvitado = (String) headerAccessor.getSessionAttributes().get("tokenInvitado");
                 if (tokenInvitado == null) {
@@ -191,22 +194,43 @@ public class SalaWebSocketController {
         webSocketEventListener.cancelarBorradoParticipante(codigo, nombre);
     }
 
-    // Metodo auxiliar
+    // Metodos auxiliares
     private String obtenerNombreUsuario(Principal principal, SimpMessageHeaderAccessor headerAccessor) {
         if (principal != null) {
+            if (principal instanceof OAuth2AuthenticationToken oauthToken) {
+                var oauthUser = oauthToken.getPrincipal();
+                String email = oauthUser.getAttribute("email");
+                if (email == null) {
+                    throw new IllegalStateException("No se pudo obtener el email del usuario de OAuth2.");
+                }
+                return usuarioService.obtenerUsuarioPorEmail(email)
+                        .getUsername()
+                        .trim()
+                        .toLowerCase();
+            }
             return principal.getName().trim().toLowerCase();
         }
         if (headerAccessor.getSessionAttributes() == null) {
             throw new IllegalStateException("Sesión no disponible");
-        }
-        String tokenInvitado = (String) headerAccessor.getSessionAttributes().get("tokenInvitado");
-        if (tokenInvitado == null) {
-            throw new IllegalStateException("Sesión de invitado inválida");
         }
         String nombre = (String) headerAccessor.getSessionAttributes().get("nombreInvitado");
         if (nombre == null || nombre.isBlank()) {
             throw new IllegalStateException("Nombre de invitado no disponible");
         }
         return nombre.trim().toLowerCase();
+    }
+
+    private Long obtenerUsuarioIdDesdePrincipal(Principal principal) {
+        if (principal == null) {
+            throw new IllegalStateException("Usuario no autenticado");
+        }
+        if (principal instanceof OAuth2AuthenticationToken oauthToken) {
+            String email = oauthToken.getPrincipal().getAttribute("email");
+            if (email == null) {
+                throw new IllegalStateException("Email no disponible en OAuth2");
+            }
+            return usuarioService.obtenerUsuarioPorEmail(email).getId();
+        }
+        return usuarioService.obtenerUsuarioPorUsername(principal.getName()).getId();
     }
 }
